@@ -1,0 +1,221 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<title>Unity Web Player | Milestone 1</title>
+		<script type='text/javascript' src='https://ssl-webplayer.unity3d.com/download_webplayer-3.x/3.0/uo/jquery.min.js'></script>
+		<script type="text/javascript">
+		<!--
+		var unityObjectUrl = "http://webplayer.unity3d.com/download_webplayer-3.x/3.0/uo/UnityObject2.js";
+		if (document.location.protocol == 'https:')
+			unityObjectUrl = unityObjectUrl.replace("http://", "https://ssl-");
+		document.write('<script type="text\/javascript" src="' + unityObjectUrl + '"><\/script>');
+		-->
+		</script>
+		<script type="text/javascript">
+		<!--
+			var config = {
+				width: 960, 
+				height: 600,
+				params: { enableDebugging:"0" }
+				
+			};
+			var u = new UnityObject2(config);
+			
+			jQuery(function() {
+
+				var $missingScreen = jQuery("#unityPlayer").find(".missing");
+				var $brokenScreen = jQuery("#unityPlayer").find(".broken");
+				$missingScreen.hide();
+				$brokenScreen.hide();
+
+				u.observeProgress(function (progress) {
+					switch(progress.pluginStatus) {
+						case "broken":
+							$brokenScreen.find("a").click(function (e) {
+								e.stopPropagation();
+								e.preventDefault();
+								u.installPlugin();
+								return false;
+							});
+							$brokenScreen.show();
+						break;
+						case "missing":
+							$missingScreen.find("a").click(function (e) {
+								e.stopPropagation();
+								e.preventDefault();
+								u.installPlugin();
+								return false;
+							});
+							$missingScreen.show();
+						break;
+						case "installed":
+							$missingScreen.remove();
+						break;
+						case "first":
+						break;
+					}
+				});
+				u.initPlugin(jQuery("#unityPlayer")[0], "m1.unity3d");
+			});
+		-->
+		</script>
+		<style type="text/css">
+		<!--
+		body {
+			font-family: Helvetica, Verdana, Arial, sans-serif;
+			background-color: black;
+			color: white;
+			text-align: center;
+		}
+		a:link, a:visited {
+			color: #bfbfbf;
+		}
+		a:active, a:hover {
+			color: #bfbfbf;
+		}
+		p.header {
+			font-size: small;
+		}
+		p.header span {
+			font-weight: bold;
+		}
+		p.footer {
+			font-size: x-small;
+		}
+		div.content {
+			margin: auto;
+			width: 960px;
+		}
+		div.broken,
+		div.missing {
+			margin: auto;
+			position: relative;
+			top: 50%;
+			width: 193px;
+		}
+		div.broken a,
+		div.missing a {
+			height: 63px;
+			position: relative;
+			top: -31px;
+		}
+		div.broken img,
+		div.missing img {
+			border-width: 0px;
+		}
+		div.broken {
+			display: none;
+		}
+		div#unityPlayer {
+			cursor: default;
+			height: 600px;
+			width: 960px;
+		}
+		-->
+		</style>
+	</head>
+	<body>
+		<p class="header"><span>Unity Web Player | </span>Milestone 1</p>
+		<div class="content">
+			<div id="unityPlayer">
+				<div class="missing">
+					<a href="http://unity3d.com/webplayer/" title="Unity Web Player. Install now!">
+						<img alt="Unity Web Player. Install now!" src="http://webplayer.unity3d.com/installation/getunity.png" width="193" height="63" />
+					</a>
+				</div>
+			</div>
+		</div>
+		<h1>CS6457 Milestone 1</h1>
+		<p>Author: Matthew Moldavan - mmoldavan@gatech.edu - mmoldavan3</p>
+<pre style="text-align:left">
+Requirements
+================================================================================
+1. Level with varied terrain: Complete
+--------------------------------------------------------------------------------
+I created a mountainous valley terrain with a sandpit and walkable plateaus. I
+added some trees, wells, carts, and paths to enhance it.
+
+I used the following assets from the Unity Asset Store to create the terrain:
+- Terrain Assets (by Unity) 
+    https://kharma.unity3d.com/en/#!/content/6
+- Large Cart (by Unity) 
+    https://kharma.unity3d.com/en/#!/content/19232
+- Traditional water well (by 3DMondra) 
+    https://kharma.unity3d.com/en/#!/content/4477
+
+2. Create or Obtain a Model: Complete
+--------------------------------------------------------------------------------
+The player model and animations were created in Mixamo Fuse and imported into
+Unity. I used the free animation pack and a sprint turning animation from Mixamo.
+
+3. Create a Mechanim Animation Controller: Complete
+--------------------------------------------------------------------------------
+3.1 Contains at least 3 input parameters: Complete
+I used Direction, Speed, Jump, and Dance as inputs.
+
+3.2 At least 3 different states or blend trees beyond the default state: Complete
+I implemented an idle default state, left stationary turn, right stationary turn,
+locomotion, jump, and dance state.
+
+3.3 One Blend Tree State with at least 2 animations clip motions: Complete
+I blended the running animation with a left and right sprint turning animation.
+There is also a blend tree for walking to running based on speed.
+
+4. Script that sets the parameters you use in the animation controller: Complete
+--------------------------------------------------------------------------------
+The Scripts/ManMovement.cs script sets the direction, speed, dance and jump
+parameters based on user input. It is a modified and slimmed down version of the
+movement script used in the Mecanim Animation Tutorial video and project files
+(https://www.youtube.com/watch?v=Xx21y9eJq1U)
+
+
+Sound and Rain
+================================================================================
+The overachiever in me added a background sound track and created a rain
+particle system.
+
+The rain particle system was made from a tutorial i found at 
+http://answers.unity3d.com/questions/21639/does-anyone-know-how-to-make-rain.html
+
+The soundtrack is "Chronos - Achronon" by Nikita Klimenko
+(https://soundcloud.com/chronosproject)
+Downloaded from http://www.ektoplazm.com/free-music/chronos-spiritus
+It was free and licensed under the Creative Commons for noncommercial usage.
+
+Bugs:
+================================================================================
+- It's possible to run off the map.
+- Jump animation isn't as smooth as I'd like.
+- Camera movement isn't smooth when running left or right continously, I think
+it is because the sprint turning animation I'm using does not loop well.
+
+Reproducing Requirements:
+================================================================================
+While Idle, press left and right arrows to turn in place.
+While Idle, press the Q key to perform a gangdam style dance. The character
+will continue to dance until you press forward.
+Press Forward arrow to walk / run. Animation goes from walking to running.
+While running, press left and right arrows to turn while running.
+Press spacebar while idle or running to jump.
+
+Unity Scene Name:
+================================================================================
+scene02.unity
+
+URL of Game:
+================================================================================
+http://projects.mattmoldavan/cs6457/m1/
+
+Keyboard Controls:
+================================================================================
+Forward - Walk / Run
+Left - turn left
+Right - turn right
+Space - Jump
+Q - Dance
+</pre>
+		</div>
+		<p class="footer">&laquo; created with <a href="http://unity3d.com/unity/" title="Go to unity3d.com">Unity</a> &raquo;</p>
+	</body>
+</html>
